@@ -2,170 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scenario A – Page B</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
-
-    :root {
-      --bg: #0a0a1a;
-      --accent: #7c6af7;
-      --text: #e8e8e8;
-      --muted: #555;
-      --border: #1e1e38;
-      --surface: #111125;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Space Mono', monospace;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    .container { max-width: 580px; width: 100%; text-align: center; }
-
-    .tag {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 3px 10px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-      color: #fff;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .countdown-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .countdown-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .countdown-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 4rem;
-      font-weight: 800;
-      color: var(--accent);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      transition: all 0.3s;
-    }
-
-    .countdown-desc {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .info-block {
-      background: #000;
-      border: 1px solid var(--border);
-      padding: 1rem;
-      font-size: 0.75rem;
-      color: #888;
-      line-height: 1.7;
-      text-align: left;
-      margin-top: 1.5rem;
-    }
-
-    .info-block code { color: var(--accent); }
-
-    .progress-bar {
-      height: 3px;
-      background: var(--border);
-      margin-top: 1rem;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-      width: 100%;
-      transform-origin: left;
-      animation: shrink 3s linear forwards;
-    }
-
-    @keyframes shrink {
-      from { transform: scaleX(1); }
-      to { transform: scaleX(0); }
-    }
-  </style>
+  <title>Scenario A - Page B</title>
 </head>
 <body>
-  <div class="container">
-    <div class="tag">Scenario A · Page B (Attacker Page)</div>
-    <h1>You're on Page B</h1>
-    <p class="subtitle">
-      This is the page the attacker controls.<br>
-      Right now, this JavaScript is executing silently…
-    </p>
-
-    <div class="countdown-card">
-      <div class="countdown-label">Redirecting your original tab in…</div>
-      <div class="countdown-number" id="counter">3</div>
-      <div class="countdown-desc">Switch back to the original tab after it hits 0</div>
-      <div class="progress-bar"><div class="progress-fill"></div></div>
-    </div>
-
-    <div class="info-block">
-      <strong style="color:#fff">The Attack Code:</strong><br><br>
-      <code>if (window.opener) {</code><br>
-      &nbsp;&nbsp;<code>window.opener.location = 'scenario-a-pageC.html';</code><br>
-      <code>}</code><br><br>
-      Because Page A used <code>rel="opener"</code>, this tab has a reference to the
-      original tab via <code>window.opener</code> and can redirect it freely.
-    </div>
-  </div>
+  <h1>Page B (Attacker's Page)</h1>
+  <p>This page has access to <code>window.opener</code> because Page A used <code>rel="opener"</code>.</p>
+  <p>It just redirected Page A (your original tab) to Page C.</p>
+  <p>Switch back to the original tab to see the result.</p>
 
   <script>
-    // THE ATTACK: redirect the opener (Page A) to the phishing page
+    // The attack: redirect the original tab (Page A) to a phishing page
     if (window.opener) {
-      window.opener.location = 'scenario-a-pageC.html';
+      window.opener.location = "scenario-a-pageC.html";
     }
-
-    // Visual countdown for demo purposes
-    let count = 3;
-    const counter = document.getElementById('counter');
-    const interval = setInterval(() => {
-      count--;
-      counter.textContent = count;
-      if (count <= 0) {
-        clearInterval(interval);
-        counter.textContent = '✓';
-        counter.style.color = '#00e5a0';
-      }
-    }, 1000);
   </script>
 </body>
 </html>

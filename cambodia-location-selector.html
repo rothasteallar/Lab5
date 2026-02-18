@@ -2,479 +2,198 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cambodia Location Selector</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 50%, #f0fdf4 100%);
-      min-height: 100vh;
-    }
-
-    .khmer { font-family: 'Hanuman', serif; }
-
-    .card-glass {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.9);
-      box-shadow: 0 8px 32px rgba(99,102,241,0.12), 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .select-custom {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      padding: 0.6rem 2.5rem 0.6rem 0.9rem;
-      border: 1.5px solid #e0e7ff;
-      border-radius: 8px;
-      background-color: #fff;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      font-size: 0.88rem;
-      font-family: 'Nunito', sans-serif;
-      color: #374151;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-    }
-
-    .select-custom:focus {
-      outline: none;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
-    }
-
-    .select-custom:disabled {
-      background-color: #f9fafb;
-      color: #9ca3af;
-      cursor: not-allowed;
-      border-color: #e5e7eb;
-    }
-
-    .label-text {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #6366f1;
-      margin-bottom: 0.35rem;
-      display: block;
-    }
-
-    .field-group {
-      position: relative;
-    }
-
-    .field-icon {
-      position: absolute;
-      right: 2.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
-    .loading-spinner {
-      display: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #e0e7ff;
-      border-top-color: #6366f1;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      position: absolute;
-      right: 2.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    @keyframes spin {
-      to { transform: translateY(-50%) rotate(360deg); }
-    }
-
-    .btn-submit {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-submit:active { transform: translateY(0); }
-
-    .btn-reset {
-      background: #f3f4f6;
-      color: #6b7280;
-      border: 1.5px solid #e5e7eb;
-      padding: 0.6rem 1.25rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .btn-reset:hover { background: #e5e7eb; }
-
-    .result-box {
-      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
-      border: 1.5px solid #c7d2fe;
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      margin-top: 1rem;
-      font-size: 0.83rem;
-      color: #4338ca;
-      display: none;
-    }
-
-    .result-box strong { color: #312e81; }
-
-    .step-indicator {
-      display: flex;
-      gap: 0.4rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .step-dot {
-      height: 4px;
-      flex: 1;
-      border-radius: 2px;
-      background: #e0e7ff;
-      transition: background 0.3s;
-    }
-
-    .step-dot.active { background: #6366f1; }
-    .step-dot.done { background: #a5b4fc; }
-
-    .error-msg {
-      color: #ef4444;
-      font-size: 0.72rem;
-      margin-top: 0.25rem;
-      display: none;
-    }
-
-    .page-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #312e81;
-      margin-bottom: 0.25rem;
-    }
-
-    .page-subtitle {
-      font-size: 0.8rem;
-      color: #6b7280;
-      margin-bottom: 1.5rem;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #e0e7ff;
-      margin: 1.25rem 0;
-    }
-  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="p-8">
 
-  <div class="card-glass rounded-2xl p-6 w-full max-w-md">
-
-    <!-- Header -->
-    <div class="flex items-center gap-3 mb-4">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg">🇰🇭</div>
-      <div>
-        <h1 class="page-title">Location Selector</h1>
-        <p class="page-subtitle khmer" style="margin-bottom:0">អ្នកជ្រើស​រើស​ទីតាំង</p>
-      </div>
-    </div>
-
-    <!-- Step progress -->
-    <div class="step-indicator" id="stepIndicator">
-      <div class="step-dot" id="dot1"></div>
-      <div class="step-dot" id="dot2"></div>
-      <div class="step-dot" id="dot3"></div>
-      <div class="step-dot" id="dot4"></div>
-    </div>
+  <div class="card w-96 bg-base-100 shadow-md p-6">
+    <h2 class="text-lg font-bold text-primary mb-4">Location Selector</h2>
 
     <!-- Province -->
-    <div class="mb-4">
-      <label class="label-text" for="province">Province / រាជធានី-ខេត្ត</label>
-      <div class="field-group">
-        <select class="select-custom" id="province">
-          <option value="">— Select Province —</option>
-        </select>
-        <div class="loading-spinner" id="spinner-province"></div>
-      </div>
-      <div class="error-msg" id="err-province">Failed to load provinces.</div>
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text font-semibold">Province</span></label>
+      <select id="province" class="select select-bordered w-full">
+        <option value="">Select Province</option>
+      </select>
     </div>
 
     <!-- District -->
-    <div class="mb-4">
-      <label class="label-text" for="district">District / ក្រុង-ស្រុក-ខណ្ឌ</label>
-      <div class="field-group">
-        <select class="select-custom" id="district" disabled>
-          <option value="">— Select District —</option>
-        </select>
-        <div class="loading-spinner" id="spinner-district"></div>
-      </div>
-      <div class="error-msg" id="err-district">Failed to load districts.</div>
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text font-semibold">District</span></label>
+      <select id="district" class="select select-bordered w-full" disabled>
+        <option value="">Select District</option>
+      </select>
     </div>
 
     <!-- Commune -->
-    <div class="mb-4">
-      <label class="label-text" for="commune">Commune / ឃុំ-សង្កាត់</label>
-      <div class="field-group">
-        <select class="select-custom" id="commune" disabled>
-          <option value="">— Select Commune —</option>
-        </select>
-        <div class="loading-spinner" id="spinner-commune"></div>
-      </div>
-      <div class="error-msg" id="err-commune">Failed to load communes.</div>
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text font-semibold">Commune</span></label>
+      <select id="commune" class="select select-bordered w-full" disabled>
+        <option value="">Select Commune</option>
+      </select>
     </div>
 
     <!-- Village -->
-    <div class="mb-4">
-      <label class="label-text" for="village">Village / ភូមិ</label>
-      <div class="field-group">
-        <select class="select-custom" id="village" disabled>
-          <option value="">— Select Village —</option>
-        </select>
-        <div class="loading-spinner" id="spinner-village"></div>
-      </div>
-      <div class="error-msg" id="err-village">Failed to load villages.</div>
+    <div class="form-control mb-4">
+      <label class="label"><span class="label-text font-semibold">Village</span></label>
+      <select id="village" class="select select-bordered w-full" disabled>
+        <option value="">Select Village</option>
+      </select>
     </div>
-
-    <hr class="divider" />
 
     <!-- Buttons -->
     <div class="flex gap-2 justify-end">
-      <button class="btn-reset" onclick="resetAll()">Reset</button>
-      <button class="btn-submit" onclick="submitForm()">Submit</button>
+      <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+      <button class="btn btn-ghost" onclick="resetForm()">Reset</button>
     </div>
-
-    <!-- Result box -->
-    <div class="result-box" id="resultBox"></div>
   </div>
 
-  <script>
-    const API_BASE = 'https://corsproxy.io/?https://cambo-gazetteer.manethpak.dev/api/v1';
+<script>
 
-    const selects = {
-      province: document.getElementById('province'),
-      district: document.getElementById('district'),
-      commune: document.getElementById('commune'),
-      village: document.getElementById('village'),
-    };
+const API_BASE = "https://cambo-gazetteer.manethpak.dev/api/v1";
+const PROXY = "https://corsproxy.io/?";
 
-    const spinners = {
-      province: document.getElementById('spinner-province'),
-      district: document.getElementById('spinner-district'),
-      commune: document.getElementById('spinner-commune'),
-      village: document.getElementById('spinner-village'),
-    };
+const provinceEl = document.getElementById("province");
+const districtEl = document.getElementById("district");
+const communeEl  = document.getElementById("commune");
+const villageEl  = document.getElementById("village");
 
-    const errors = {
-      province: document.getElementById('err-province'),
-      district: document.getElementById('err-district'),
-      commune: document.getElementById('err-commune'),
-      village: document.getElementById('err-village'),
-    };
 
-    const dots = [
-      document.getElementById('dot1'),
-      document.getElementById('dot2'),
-      document.getElementById('dot3'),
-      document.getElementById('dot4'),
-    ];
+// ✅ FIX: define fetchAPI function
+async function fetchAPI(url)
+{
+  const res = await fetch(PROXY + encodeURIComponent(url));
+  return await res.json();
+}
 
-    function setLoading(level, on) {
-      spinners[level].style.display = on ? 'block' : 'none';
-    }
 
-    function showError(level, on) {
-      errors[level].style.display = on ? 'block' : 'none';
-    }
+// Helper: fill select
+function fillSelect(selectEl, items, placeholder)
+{
+  selectEl.innerHTML = `<option value="">${placeholder}</option>`;
 
-    function updateStepIndicator() {
-      const vals = [
-        selects.province.value,
-        selects.district.value,
-        selects.commune.value,
-        selects.village.value,
-      ];
-      dots.forEach((dot, i) => {
-        dot.className = 'step-dot';
-        if (vals[i]) {
-          dot.classList.add(i < 3 && vals[i + 1] ? 'done' : 'active');
-        }
-      });
-      // Simplify: count selected
-      let filled = vals.filter(Boolean).length;
-      dots.forEach((dot, i) => {
-        dot.className = 'step-dot';
-        if (i < filled - 1) dot.classList.add('done');
-        else if (i === filled - 1) dot.classList.add('active');
-      });
-    }
+  items.forEach(item =>
+  {
+    const option = document.createElement("option");
 
-    function populateSelect(selectEl, items, valueKey, labelKey, placeholder) {
-      selectEl.innerHTML = `<option value="">${placeholder}</option>`;
-      items.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = item[valueKey];
-        opt.textContent = item[labelKey];
-        selectEl.appendChild(opt);
-      });
-    }
+    option.value = item.id;
+    option.textContent = `${item.name_en} (${item.name_km})`;
 
-    function resetBelow(levels) {
-      levels.forEach(lvl => {
-        selects[lvl].innerHTML = `<option value="">— Select ${lvl.charAt(0).toUpperCase() + lvl.slice(1)} —</option>`;
-        selects[lvl].disabled = true;
-        showError(lvl, false);
-      });
-      document.getElementById('resultBox').style.display = 'none';
-      updateStepIndicator();
-    }
+    selectEl.appendChild(option);
+  });
+}
 
-    async function fetchData(url) {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    }
 
-    // ── Load Provinces on init ──
-    async function loadProvinces() {
-      setLoading('province', true);
-      showError('province', false);
-      try {
-        const data = await fetchData(`${API_BASE}/provinces`);
-        const items = data.data || data;
-        populateSelect(selects.province, items, 'id', 'name', '— Select Province —');
-      } catch (e) {
-        showError('province', true);
-        console.error('Province load error:', e);
-      } finally {
-        setLoading('province', false);
-      }
-    }
+// Helper: reset select
+function resetSelect(selectEl, placeholder)
+{
+  selectEl.innerHTML = `<option value="">${placeholder}</option>`;
+  selectEl.disabled = true;
+}
 
-    // ── Province → load Districts ──
-    selects.province.addEventListener('change', async function () {
-      resetBelow(['district', 'commune', 'village']);
-      updateStepIndicator();
-      const id = this.value;
-      if (!id) return;
 
-      selects.district.disabled = true;
-      setLoading('district', true);
-      showError('district', false);
-      try {
-        const data = await fetchData(`${API_BASE}/districts?province=${id}`);
-        const items = data.data || data;
-        populateSelect(selects.district, items, 'id', 'name', '— Select District —');
-        selects.district.disabled = false;
-      } catch (e) {
-        showError('district', true);
-        console.error('District load error:', e);
-      } finally {
-        setLoading('district', false);
-        updateStepIndicator();
-      }
-    });
+// Load provinces
+async function loadProvinces()
+{
+  const data = await fetchAPI(`${API_BASE}/provinces`);
 
-    // ── District → load Communes ──
-    selects.district.addEventListener('change', async function () {
-      resetBelow(['commune', 'village']);
-      updateStepIndicator();
-      const id = this.value;
-      if (!id) return;
+  console.log("PROVINCES:", data);
 
-      selects.commune.disabled = true;
-      setLoading('commune', true);
-      showError('commune', false);
-      try {
-        const data = await fetchData(`${API_BASE}/communes?district=${id}`);
-        const items = data.data || data;
-        populateSelect(selects.commune, items, 'id', 'name', '— Select Commune —');
-        selects.commune.disabled = false;
-      } catch (e) {
-        showError('commune', true);
-        console.error('Commune load error:', e);
-      } finally {
-        setLoading('commune', false);
-        updateStepIndicator();
-      }
-    });
+  fillSelect(provinceEl, data.data, "Select Province");
+}
 
-    // ── Commune → load Villages ──
-    selects.commune.addEventListener('change', async function () {
-      resetBelow(['village']);
-      updateStepIndicator();
-      const id = this.value;
-      if (!id) return;
 
-      selects.village.disabled = true;
-      setLoading('village', true);
-      showError('village', false);
-      try {
-        const data = await fetchData(`${API_BASE}/villages?commune=${id}`);
-        const items = data.data || data;
-        populateSelect(selects.village, items, 'id', 'name', '— Select Village —');
-        selects.village.disabled = false;
-      } catch (e) {
-        showError('village', true);
-        console.error('Village load error:', e);
-      } finally {
-        setLoading('village', false);
-        updateStepIndicator();
-      }
-    });
+// PROVINCE → DISTRICT
+provinceEl.onchange = async function()
+{
+  resetSelect(districtEl, "Select District");
+  resetSelect(communeEl, "Select Commune");
+  resetSelect(villageEl, "Select Village");
 
-    selects.village.addEventListener('change', updateStepIndicator);
+  if(!this.value) return;
 
-    // ── Submit ──
-    function submitForm() {
-      const p = selects.province.options[selects.province.selectedIndex];
-      const d = selects.district.options[selects.district.selectedIndex];
-      const c = selects.commune.options[selects.commune.selectedIndex];
-      const v = selects.village.options[selects.village.selectedIndex];
+  const data =
+  await fetchAPI(`${API_BASE}/districts?province_id=${this.value}`);
 
-      if (!p.value) { alert('Please select a Province.'); return; }
-      if (!d.value) { alert('Please select a District.'); return; }
-      if (!c.value) { alert('Please select a Commune.'); return; }
-      if (!v.value) { alert('Please select a Village.'); return; }
+  console.log("DISTRICTS:", data);
 
-      const box = document.getElementById('resultBox');
-      box.style.display = 'block';
-      box.innerHTML = `
-        <div style="font-weight:800;color:#312e81;margin-bottom:0.5rem">✅ Selected Location</div>
-        <div><strong>Province:</strong> ${p.text}</div>
-        <div><strong>District:</strong> ${d.text}</div>
-        <div><strong>Commune:</strong> ${c.text}</div>
-        <div><strong>Village:</strong> ${v.text}</div>
-      `;
-    }
+  fillSelect(districtEl, data.data, "Select District");
 
-    // ── Reset ──
-    function resetAll() {
-      selects.province.value = '';
-      resetBelow(['district', 'commune', 'village']);
-      updateStepIndicator();
-      document.getElementById('resultBox').style.display = 'none';
-    }
+  districtEl.disabled = false;
+};
 
-    // ── Init ──
-    loadProvinces();
-    updateStepIndicator();
-  </script>
+
+// DISTRICT → COMMUNE
+districtEl.onchange = async function()
+{
+  resetSelect(communeEl, "Select Commune");
+  resetSelect(villageEl, "Select Village");
+
+  if(!this.value) return;
+
+  const data =
+  await fetchAPI(`${API_BASE}/communes?district_id=${this.value}`);
+
+  console.log("COMMUNES:", data);
+
+  fillSelect(communeEl, data.data, "Select Commune");
+
+  communeEl.disabled = false;
+};
+
+
+// COMMUNE → VILLAGE
+communeEl.onchange = async function()
+{
+  resetSelect(villageEl, "Select Village");
+
+  if(!this.value) return;
+
+  const data =
+  await fetchAPI(`${API_BASE}/villages?commune_id=${this.value}`);
+
+  console.log("VILLAGES:", data);
+
+  fillSelect(villageEl, data.data, "Select Village");
+
+  villageEl.disabled = false;
+};
+
+
+// Submit
+function submitForm()
+{
+  if (!provinceEl.value) return alert("Please select Province");
+  if (!districtEl.value) return alert("Please select District");
+  if (!communeEl.value) return alert("Please select Commune");
+  if (!villageEl.value) return alert("Please select Village");
+
+  alert(`
+Province: ${provinceEl.selectedOptions[0].text}
+District: ${districtEl.selectedOptions[0].text}
+Commune: ${communeEl.selectedOptions[0].text}
+Village: ${villageEl.selectedOptions[0].text}
+  `);
+}
+
+
+// Reset
+function resetForm()
+{
+  provinceEl.value = "";
+
+  resetSelect(districtEl, "Select District");
+  resetSelect(communeEl, "Select Commune");
+  resetSelect(villageEl, "Select Village");
+}
+
+
+// Init
+loadProvinces();
+
+</script>
+
 </body>
 </html>

@@ -2,165 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign in – MySecureBank</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f5f5f5;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .login-card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 380px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .logo-icon {
-      width: 32px; height: 32px;
-      background: #1a56db;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .logo-name { font-size: 1rem; font-weight: 600; color: #111; }
-
-    h2 { font-size: 1.3rem; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
-    .hint { font-size: 0.8rem; color: #888; margin-bottom: 1.5rem; }
-
-    label { display: block; font-size: 0.8rem; font-weight: 500; color: #333; margin-bottom: 0.35rem; }
-
-    input {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input:focus { border-color: #1a56db; box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
-
-    .btn {
-      width: 100%;
-      padding: 0.75rem;
-      background: #1a56db;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      transition: background 0.2s;
-    }
-
-    .btn:hover { background: #1648c0; }
-
-    .forgot { font-size: 0.78rem; color: #1a56db; text-decoration: none; display: block; margin-top: 1rem; text-align: center; }
-
-    /* ─── BIG ATTACK BANNER ─── */
-    .attack-banner {
-      background: #fff1f2;
-      border: 2px solid #ff4d6d;
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      color: #9a1c2b;
-      line-height: 1.6;
-    }
-
-    .attack-banner strong { color: #ff4d6d; font-size: 0.8rem; display: block; margin-bottom: 0.25rem; }
-
-    .attack-banner code {
-      background: #ffe4e8;
-      padding: 1px 4px;
-      border-radius: 3px;
-      font-size: 0.73rem;
-    }
-
-    .url-bar {
-      background: #f0f0f0;
-      border-radius: 4px;
-      padding: 0.4rem 0.75rem;
-      font-size: 0.73rem;
-      color: #444;
-      margin: 0.5rem 0;
-      font-family: monospace;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .url-bar .lock { color: #999; }
-  </style>
+  <title>Page C - Fake Login</title>
 </head>
 <body>
-  <div style="max-width: 380px; width: 100%;">
-    <div class="login-card">
-      <div class="logo">
-        <div class="logo-icon">MB</div>
-        <span class="logo-name">MySecureBank</span>
-      </div>
-      <h2>Welcome back</h2>
-      <p class="hint">Sign in to continue to your account</p>
+  <h1>Page C (Phishing Page)</h1>
+  <p>⚠️ This is the fake page the attacker replaced your original tab with.</p>
+  <p>A real victim would see a convincing login page and enter their credentials.</p>
 
-      <label>Email</label>
-      <input type="email" placeholder="you@example.com" />
-
-      <label>Password</label>
-      <input type="password" placeholder="••••••••" />
-
-      <button class="btn" onclick="showCaught()">Sign In</button>
-      <a href="#" class="forgot">Forgot password?</a>
-    </div>
-
-    <div class="attack-banner">
-      <strong>🎣 TABNAPPING ATTACK — PAGE C (Phishing Page)</strong>
-      You are now on the <em>fake</em> login page. The original tab (Page A) was silently
-      replaced with this page while you were on Page B.
-      <br><br>
-      A real victim would see a convincing lookalike of a site they trust
-      (bank, email, etc.) and may enter credentials here — thinking they were
-      simply "logged out" while browsing.
-      <br><br>
-      <strong>Prevention:</strong> Use <code>rel="noopener noreferrer"</code> instead of
-      <code>rel="opener"</code>. This prevents the new tab from accessing
-      <code>window.opener</code> entirely.
-    </div>
-  </div>
-
-  <script>
-    function showCaught() {
-      alert('🚨 Attack simulation: In a real attack, your credentials would now be stolen!\n\nPrevention: Always use rel="noopener noreferrer" on target="_blank" links.');
-    }
-  </script>
+  <hr />
+  <h2>Please log in again</h2>
+  <form onsubmit="alert('Attack! Credentials would be stolen here.'); return false;">
+    <label>Email: <input type="email" /></label><br /><br />
+    <label>Password: <input type="password" /></label><br /><br />
+    <button type="submit">Login</button>
+  </form>
 </body>
 </html>

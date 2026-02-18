@@ -2,167 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scenario B – Page B</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
-
-    :root {
-      --bg: #060d12;
-      --accent: #22d3ee;
-      --text: #e8e8e8;
-      --muted: #444;
-      --border: #0f2030;
-      --surface: #0b1822;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Space Mono', monospace;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    .container { max-width: 580px; width: 100%; text-align: center; }
-
-    .tag {
-      display: inline-block;
-      background: var(--accent);
-      color: #000;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 3px 10px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-      color: #fff;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .timer-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .timer-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .timer-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 4rem;
-      font-weight: 800;
-      color: var(--accent);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      transition: color 0.3s;
-    }
-
-    .timer-desc { font-size: 0.75rem; color: var(--muted); }
-
-    .progress-track {
-      height: 3px;
-      background: var(--border);
-      margin-top: 1rem;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-      width: 100%;
-      transform-origin: left;
-      animation: shrink 5s linear forwards;
-    }
-
-    @keyframes shrink {
-      from { transform: scaleX(1); }
-      to { transform: scaleX(0); }
-    }
-
-    .info-block {
-      background: #000;
-      border: 1px solid var(--border);
-      padding: 1rem;
-      font-size: 0.75rem;
-      color: #777;
-      line-height: 1.7;
-      text-align: left;
-    }
-
-    .info-block code { color: var(--accent); }
-
-    .instruction {
-      margin-top: 1.5rem;
-      border: 1px solid var(--border);
-      padding: 0.85rem 1.25rem;
-      font-size: 0.75rem;
-      color: #999;
-      background: var(--surface);
-    }
-
-    .instruction strong { color: #fff; }
-  </style>
+  <title>Scenario B - Page B</title>
 </head>
 <body>
-  <div class="container">
-    <div class="tag">Scenario B · Page B (Bait Page)</div>
-    <h1>You're on Page B</h1>
-    <p class="subtitle">
-      This is normal-looking content. But in <strong>5 seconds</strong>,<br>
-      this very tab will silently redirect to a phishing page.
-    </p>
+  <h1>Page B (Attacker's Page)</h1>
+  <p>This page looks normal. But after 5 seconds, it will redirect itself to Page C.</p>
+  <p>Switch back to Page A now, then come back to this tab after a few seconds.</p>
 
-    <div class="timer-card">
-      <div class="timer-label">Redirecting this tab in…</div>
-      <div class="timer-number" id="counter">5</div>
-      <div class="timer-desc">Switch back to Page A now — come back here after it hits 0</div>
-      <div class="progress-track"><div class="progress-fill"></div></div>
-    </div>
-
-    <div class="info-block">
-      <strong style="color:#fff">The Attack Code:</strong><br><br>
-      <code>setTimeout(() => {</code><br>
-      &nbsp;&nbsp;<code>window.location.href = 'scenario-a-pageC.html';</code><br>
-      <code>}, 5000);</code><br><br>
-      No <code>window.opener</code> needed. The attacker controls this tab's content,
-      so they simply schedule a redirect. When you come back, you'll see a phishing page.
-    </div>
-
-    <div class="instruction">
-      <strong>Try it:</strong> Switch back to the Page A tab now, wait a few seconds,
-      then switch back to <em>this</em> tab to see the attack result.
-    </div>
-  </div>
+  <p>Redirecting in <span id="counter">5</span> seconds...</p>
 
   <script>
     let count = 5;
-    const counter = document.getElementById('counter');
+    const counter = document.getElementById("counter");
 
     const interval = setInterval(() => {
       count--;
@@ -172,9 +23,9 @@
       }
     }, 1000);
 
-    // THE ATTACK: redirect this tab itself after 5 seconds
+    // The attack: redirect this tab itself to a phishing page
     setTimeout(() => {
-      window.location.href = 'scenario-a-pageC.html';
+      window.location.href = "scenario-a-pageC.html";
     }, 5000);
   </script>
 </body>
